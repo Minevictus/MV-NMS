@@ -75,10 +75,6 @@ public enum BukkitVersion {
    */
   public static final String rawBukkitVersion = Bukkit.getServer()
       .getClass().getPackage().getName().split("\\.")[3];
-  private static final Object syncLock = new Object();
-
-  @SuppressWarnings("OptionalAssignedToNull")
-  private static Optional<BukkitVersion> currentVersion = null;
 
   private final String packageName;
 
@@ -125,17 +121,7 @@ public enum BukkitVersion {
   @SuppressWarnings("OptionalAssignedToNull")
   @NotNull
   public static Optional<BukkitVersion> getOptionalVersion() {
-    if (currentVersion == null) {
-      synchronized (syncLock) {
-        if (currentVersion == null) {
-          currentVersion = Arrays.stream(values())
-              .filter(it -> it.packageName.equals(rawBukkitVersion))
-              .findFirst();
-        }
-      }
-    }
-
-    return currentVersion;
+    return Internal.INSTANCE.current;
   }
 
   /**
@@ -159,4 +145,21 @@ public enum BukkitVersion {
 
   @NotNull
   public abstract INmsItems getNmsItems();
+
+  /**
+   * An internal enum for synchronisation use.
+   * <p>
+   * This parses and sets the current Bukkit version.
+   */
+  private enum Internal {
+    INSTANCE;
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType") final Optional<BukkitVersion> current;
+
+    Internal() {
+      current = Arrays.stream(BukkitVersion.values())
+          .filter(it -> it.packageName.equals(rawBukkitVersion))
+          .findFirst();
+    }
+  }
 }
