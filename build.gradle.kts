@@ -112,8 +112,8 @@ publishing {
             name = "proxi-nexus"
             url = uri("https://nexus.proximyst.com/repository/maven-any/")
             credentials {
-                val proxiUser: String by project
-                val proxiPassword: String by project
+                val proxiUser: String? by project
+                val proxiPassword: String? by project
                 username = proxiUser
                 password = proxiPassword
             }
