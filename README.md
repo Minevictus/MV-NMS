@@ -48,12 +48,15 @@ depends: [MV-NMS]
 
 ## Usage
 
-First, the plugin will load. Once loaded, the `BukkitVersion` enum will have its
-`#isUnknownVersion` method tell whether the current version is supported. If this is
-`false`, `#getCurrentVersion` will throw an exception upon call.
+First, the plugin will load. Once loaded, the `BukkitVersion` enum will have
+its `#isUnknownVersion` method tell whether the current version is supported.
+If this is `false`, `#getCurrentVersion` will throw an exception upon call.
+`#getOptionalVersion` is always safe and will never return any `null`s or throw
+exceptions.
 
-All the methods of the variants of `BukkitVersion` return cached instances, so long
-as the version attempted isn't `UNKNOWN`, which throws exceptions on every instance.
+All the methods of the variants of `BukkitVersion` return cached instances, so
+long as the version attempted isn't `UNKNOWN`, which throws exceptions on every
+instance.
 
 ## The current interfaces:
 

@@ -3,6 +3,7 @@ package com.proximyst.mvnms;
 import com.proximyst.mvnms.common.INmsVillager;
 import com.proximyst.mvnms.v1_15_r1.NmsVillagerV1_15_R1Implementation;
 import java.util.Arrays;
+import java.util.Optional;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,7 +62,9 @@ public enum BukkitVersion {
   public static final String rawBukkitVersion = Bukkit.getServer()
       .getClass().getPackage().getName().split("\\.")[3];
   private static final Object syncLock = new Object();
-  private static BukkitVersion currentVersion = null;
+
+  @SuppressWarnings("OptionalAssignedToNull")
+  private static Optional<BukkitVersion> currentVersion = null;
 
   private final String packageName;
 
@@ -72,22 +75,15 @@ public enum BukkitVersion {
   /**
    * Safe function for deciding whether there are NMS interfaces available.
    * <p>
-   * Unlike {@link #getCurrentVersion()}, this does not throw an {@link IllegalStateException} upon
-   * an unknown version being found.
+   * Unlike {@link #getCurrentVersion()}, this does not throw an {@link IllegalStateException} upon an unknown version
+   * being found.
    *
    * @return Whether the current version is unknown.
    */
   public static boolean isUnknownVersion() {
-    if (currentVersion == null) {
-      try {
-        getCurrentVersion();
-        return false;
-      } catch (IllegalStateException ignored) {
-        return true;
-      }
-    }
-
-    return currentVersion == UNKNOWN;
+    return !getOptionalVersion()
+        .filter(it -> it != UNKNOWN)
+        .isPresent();
   }
 
   /**
@@ -100,20 +96,31 @@ public enum BukkitVersion {
    */
   @NotNull
   public static BukkitVersion getCurrentVersion() {
+    return getOptionalVersion().orElseThrow(
+        () -> new IllegalStateException(rawBukkitVersion + " is not a supported version")
+    );
+  }
+
+  /**
+   * Gets the current Bukkit version.
+   * <p>
+   * This parses on first run, which <b>should</b> be done by {@link MvNms#onEnable()}.
+   *
+   * @return The current version or an empty {@link Optional}.
+   */
+  @SuppressWarnings("OptionalAssignedToNull")
+  @NotNull
+  public static Optional<BukkitVersion> getOptionalVersion() {
     if (currentVersion == null) {
       synchronized (syncLock) {
         if (currentVersion == null) {
           currentVersion = Arrays.stream(values())
               .filter(it -> it.packageName.equals(rawBukkitVersion))
-              .findFirst()
-              .orElse(UNKNOWN);
+              .findFirst();
         }
       }
     }
 
-    if (currentVersion == UNKNOWN) {
-      throw new IllegalStateException(rawBukkitVersion + " is not a supported version");
-    }
     return currentVersion;
   }
 
