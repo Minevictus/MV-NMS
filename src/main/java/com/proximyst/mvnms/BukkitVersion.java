@@ -14,9 +14,6 @@ public enum BukkitVersion {
    * Version 1.15.0 to 1.15.2 (per 2019-03-07).
    */
   V1_15_R1("v1_15_R1") {
-    private INmsVillager iNmsVillager = null;
-    private INmsItems iNmsItems = null;
-
     @Override
     void setup() {
       iNmsVillager = new NmsVillagerV1_15_R1Implementation();
@@ -27,17 +24,6 @@ public enum BukkitVersion {
     @Override
     public MinecraftVersion getMinecraftVersion() {
       return MinecraftVersion.V1_15;
-    }
-
-    @NotNull
-    @Override
-    public INmsVillager getNmsVillager() {
-      return iNmsVillager;
-    }
-
-    @Override
-    public @NotNull INmsItems getNmsItems() {
-      return iNmsItems;
     }
   },
 
@@ -63,8 +49,9 @@ public enum BukkitVersion {
       throw new IllegalStateException("Unknown version");
     }
 
+    @NotNull
     @Override
-    public @NotNull INmsItems getNmsItems() {
+    public INmsItems getNmsItems() {
       throw new IllegalStateException("Unknown version");
     }
   },
@@ -77,6 +64,9 @@ public enum BukkitVersion {
       .getClass().getPackage().getName().split("\\.")[3];
 
   private final String packageName;
+
+  protected INmsVillager iNmsVillager = null;
+  protected INmsItems iNmsItems = null;
 
   BukkitVersion(final String packageName) {
     this.packageName = packageName;
@@ -140,10 +130,14 @@ public enum BukkitVersion {
   public abstract MinecraftVersion getMinecraftVersion();
 
   @NotNull
-  public abstract INmsVillager getNmsVillager();
+  public INmsVillager getNmsVillager() {
+    return iNmsVillager;
+  }
 
   @NotNull
-  public abstract INmsItems getNmsItems();
+  public INmsItems getNmsItems() {
+    return iNmsItems;
+  }
 
   /**
    * An internal enum for synchronisation use.
