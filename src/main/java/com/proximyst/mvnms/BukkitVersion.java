@@ -16,14 +16,9 @@ public enum BukkitVersion {
   V1_15_R1("v1_15_R1") {
     @Override
     void setup() {
+      minecraftVersion = MinecraftVersion.V1_15;
       iNmsVillager = new NmsVillagerV1_15_R1Implementation();
       iNmsItems = new NmsItemsV1_15_R1Implementation();
-    }
-
-    @NotNull
-    @Override
-    public MinecraftVersion getMinecraftVersion() {
-      return MinecraftVersion.V1_15;
     }
   },
   ;
@@ -36,6 +31,7 @@ public enum BukkitVersion {
 
   private final String packageName;
 
+  protected MinecraftVersion minecraftVersion = null;
   protected INmsVillager iNmsVillager = null;
   protected INmsItems iNmsItems = null;
 
@@ -93,10 +89,12 @@ public enum BukkitVersion {
   abstract void setup();
 
   /**
-   * The current Minecraft version as a whole.
+   * The Minecraft version represented by this version of Bukkit.
    */
   @NotNull
-  public abstract MinecraftVersion getMinecraftVersion();
+  public MinecraftVersion getMinecraftVersion() {
+    return minecraftVersion;
+  }
 
   @NotNull
   public INmsVillager getNmsVillager() {
