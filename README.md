@@ -54,3 +54,8 @@ First, the plugin will load. Once loaded, the `BukkitVersion` enum will have its
 
 All the methods of the variants of `BukkitVersion` return cached instances, so long
 as the version attempted isn't `UNKNOWN`, which throws exceptions on every instance.
+
+## The current interfaces:
+
+- `INmsVillager#clearVillagerReputations(Villager)`: \
+  Clears all the gossips from a given villager.
