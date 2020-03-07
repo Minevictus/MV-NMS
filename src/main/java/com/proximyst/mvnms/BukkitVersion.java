@@ -26,35 +26,6 @@ public enum BukkitVersion {
       return MinecraftVersion.V1_15;
     }
   },
-
-  /**
-   * An unknown version. All its methods throw exceptions and it is only used as a placeholder to not parse the version
-   * more than once while still throwing exceptions in {@link #getCurrentVersion()}.
-   */
-  UNKNOWN("") {
-    @Override
-    void setup() {
-      throw new IllegalStateException("Unknown version");
-    }
-
-    @NotNull
-    @Override
-    public MinecraftVersion getMinecraftVersion() {
-      throw new IllegalStateException("Unknown version");
-    }
-
-    @NotNull
-    @Override
-    public INmsVillager getNmsVillager() {
-      throw new IllegalStateException("Unknown version");
-    }
-
-    @NotNull
-    @Override
-    public INmsItems getNmsItems() {
-      throw new IllegalStateException("Unknown version");
-    }
-  },
   ;
 
   /**
@@ -81,9 +52,7 @@ public enum BukkitVersion {
    * @return Whether the current version is unknown.
    */
   public static boolean isUnknownVersion() {
-    return !getOptionalVersion()
-        .filter(it -> it != UNKNOWN)
-        .isPresent();
+    return !getOptionalVersion().isPresent();
   }
 
   /**

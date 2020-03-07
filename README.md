@@ -54,11 +54,13 @@ If this is `false`, `#getCurrentVersion` will throw an exception upon call.
 `#getOptionalVersion` is always safe and will never return any `null`s or throw
 exceptions.
 
-All the methods of the variants of `BukkitVersion` return cached instances, so
-long as the version attempted isn't `UNKNOWN`, which throws exceptions on every
-instance.
+All the methods of the variants of `BukkitVersion` return cached instances.
 
 ## The current interfaces:
 
-- `INmsVillager#clearVillagerReputations(Villager)`: \
+- `INmsVillager#clearVillagerReputations(@NotNull Villager)`: \
   Clears all the gossips from a given villager.
+- `INmsItems#serializeItemStack(@NotNull ItemStack)`: \
+  Serialises an item to `byte[]`.
+- `INmsItems#deserializeItemStack(byte[])`: \
+  Deserialises an item from a `byte[]` to a `@NotNull ItemStack`.
