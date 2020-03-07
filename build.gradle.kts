@@ -1,10 +1,25 @@
 import org.apache.tools.ant.filters.ReplaceTokens
+import java.util.Properties
 
 plugins {
     java
     id("com.github.johnrengelman.shadow") version "5.2.0"
     maven
     `maven-publish`
+}
+
+run {
+    val props = Properties()
+    rootDir.listFiles { file -> file.extension == "properties" && file.nameWithoutExtension != "gradle" }
+        ?.forEach {
+            println("Loading ${it.name}...")
+            it.inputStream().use {
+                props.load(it)
+            }
+        }
+    props.forEach {
+        project.ext[it.key.toString()] = it.value
+    }
 }
 
 subprojects {
