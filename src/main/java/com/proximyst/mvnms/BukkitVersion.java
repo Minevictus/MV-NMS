@@ -118,7 +118,6 @@ public enum BukkitVersion {
    *
    * @return The current version or an empty {@link Optional}.
    */
-  @SuppressWarnings("OptionalAssignedToNull")
   @NotNull
   public static Optional<BukkitVersion> getOptionalVersion() {
     return Internal.INSTANCE.current;
