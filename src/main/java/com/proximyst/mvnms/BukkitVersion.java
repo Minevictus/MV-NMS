@@ -1,6 +1,8 @@
 package com.proximyst.mvnms;
 
+import com.proximyst.mvnms.common.INmsItems;
 import com.proximyst.mvnms.common.INmsVillager;
+import com.proximyst.mvnms.v1_15_r1.NmsItemsV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsVillagerV1_15_R1Implementation;
 import java.util.Arrays;
 import java.util.Optional;
@@ -13,10 +15,12 @@ public enum BukkitVersion {
    */
   V1_15_R1("v1_15_R1") {
     private INmsVillager iNmsVillager = null;
+    private INmsItems iNmsItems = null;
 
     @Override
     void setup() {
       iNmsVillager = new NmsVillagerV1_15_R1Implementation();
+      iNmsItems = new NmsItemsV1_15_R1Implementation();
     }
 
     @NotNull
@@ -29,6 +33,11 @@ public enum BukkitVersion {
     @Override
     public INmsVillager getNmsVillager() {
       return iNmsVillager;
+    }
+
+    @Override
+    public @NotNull INmsItems getNmsItems() {
+      return iNmsItems;
     }
   },
 
@@ -51,6 +60,11 @@ public enum BukkitVersion {
     @NotNull
     @Override
     public INmsVillager getNmsVillager() {
+      throw new IllegalStateException("Unknown version");
+    }
+
+    @Override
+    public @NotNull INmsItems getNmsItems() {
       throw new IllegalStateException("Unknown version");
     }
   },
@@ -142,4 +156,7 @@ public enum BukkitVersion {
 
   @NotNull
   public abstract INmsVillager getNmsVillager();
+
+  @NotNull
+  public abstract INmsItems getNmsItems();
 }
