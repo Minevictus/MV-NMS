@@ -1,5 +1,6 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 import java.util.Properties
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     java
@@ -107,6 +108,10 @@ dependencies {
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = sourceCompatibility
+}
+
+tasks.withType<ShadowJar> {
+    this.archiveClassifier.set(null as String?)
 }
 
 val sourcesJar = tasks.create<Jar>("sourcesJar") {
