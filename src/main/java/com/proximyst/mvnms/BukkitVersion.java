@@ -1,7 +1,9 @@
 package com.proximyst.mvnms;
 
+import com.proximyst.mvnms.common.INmsEntity;
 import com.proximyst.mvnms.common.INmsItems;
 import com.proximyst.mvnms.common.INmsVillager;
+import com.proximyst.mvnms.v1_15_r1.NmsEntityV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsItemsV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsVillagerV1_15_R1Implementation;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ public enum BukkitVersion {
       minecraftVersion = MinecraftVersion.V1_15;
       iNmsVillager = new NmsVillagerV1_15_R1Implementation();
       iNmsItems = new NmsItemsV1_15_R1Implementation();
+      iNmsEntity = new NmsEntityV1_15_R1Implementation();
     }
   },
   ;
@@ -34,6 +37,7 @@ public enum BukkitVersion {
   protected MinecraftVersion minecraftVersion = null;
   protected INmsVillager iNmsVillager = null;
   protected INmsItems iNmsItems = null;
+  protected INmsEntity iNmsEntity = null;
 
   BukkitVersion(final String packageName) {
     this.packageName = packageName;
@@ -104,6 +108,11 @@ public enum BukkitVersion {
   @NotNull
   public INmsItems getNmsItems() {
     return iNmsItems;
+  }
+
+  @NotNull
+  public INmsEntity getiNmsEntity() {
+    return iNmsEntity;
   }
 
   /**
