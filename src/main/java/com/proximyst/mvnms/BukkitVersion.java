@@ -111,7 +111,7 @@ public enum BukkitVersion {
   }
 
   @NotNull
-  public INmsEntity getiNmsEntity() {
+  public INmsEntity getNmsEntity() {
     return iNmsEntity;
   }
 

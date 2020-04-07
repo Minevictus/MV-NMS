@@ -64,3 +64,8 @@ All the methods of the variants of `BukkitVersion` return cached instances.
   Serialises an item to `byte[]`.
 - `INmsItems#deserializeItemStack(byte[])`: \
   Deserialises an item from a `byte[]` to a `@NotNull ItemStack`.
+- `INmsEntity#rotate(@NotNull Entity, float, float)`: \
+  Rotate an entity without teleporting it.
+- `INmsEntity#rotateLivingEntity(@NotNull LivingEntity, float, float)`: \
+  Rotate a living entity, this is sometimes needed with entities such as the Ender Dragon, 
+  but most of the time the method above is enough.

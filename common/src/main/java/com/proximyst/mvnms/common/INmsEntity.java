@@ -2,6 +2,7 @@ package com.proximyst.mvnms.common;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
 public interface INmsEntity {
   /**
@@ -10,7 +11,7 @@ public interface INmsEntity {
    * @param yaw - new yaw
    * @param pitch - new pitch
    */
-  void rotate(Entity entity, float yaw, float pitch);
+  void rotate(@NotNull Entity entity, float yaw, float pitch);
 
   /**
    * Rotate a living entity
@@ -18,5 +19,5 @@ public interface INmsEntity {
    * @param yaw - new yaw
    * @param pitch - new pitch
    */
-  void rotateLivingEntity(LivingEntity livingEntity, float yaw, float pitch);
+  void rotateLivingEntity(@NotNull LivingEntity livingEntity, float yaw, float pitch);
 }
