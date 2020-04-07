@@ -1,6 +1,6 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-import java.util.Properties
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.apache.tools.ant.filters.ReplaceTokens
+import java.util.*
 
 plugins {
     java
@@ -31,7 +31,7 @@ subprojects {
 
 allprojects {
     group = "com.proximyst"
-    version = "0.1.6"
+    version = "0.1.7"
 
     repositories {
         maven {

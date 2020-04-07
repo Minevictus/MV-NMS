@@ -1,13 +1,10 @@
 package com.proximyst.mvnms.v1_15_r1;
 
 import com.proximyst.mvnms.common.INmsEntity;
-import net.minecraft.server.v1_15_R1.ChatComponentNBT;
 import net.minecraft.server.v1_15_R1.EntityLiving;
-import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class NmsEntityV1_15_R1Implementation implements INmsEntity {
@@ -38,5 +35,17 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
     handle.aL = yaw;
 
     handle.pitch = pitch;
+  }
+
+  @Override
+  public void setInvisible(@NotNull Entity entity, boolean visibility) {
+    net.minecraft.server.v1_15_R1.Entity handle = ((CraftEntity) entity).getHandle();
+    handle.setInvisible(visibility);
+  }
+
+  @Override
+  public void setInvulnerable(@NotNull Entity entity, boolean invulnerability) {
+    net.minecraft.server.v1_15_R1.Entity handle = ((CraftEntity) entity).getHandle();
+    handle.setInvulnerable(true);
   }
 }

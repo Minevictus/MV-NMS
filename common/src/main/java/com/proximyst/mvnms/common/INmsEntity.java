@@ -20,4 +20,18 @@ public interface INmsEntity {
    * @param pitch - new pitch
    */
   void rotateLivingEntity(@NotNull LivingEntity livingEntity, float yaw, float pitch);
+
+  /**
+   * Bukkit does not let you make some entities invisible
+   * @param entity - entity to apply effect
+   * @param visibility - visibility value
+   */
+  void setInvisible(@NotNull Entity entity, boolean visibility);
+
+  /**
+   * Bukkit does not let you make some entities invulnerable
+   * @param entity - entity to apply effect
+   * @param invulnerability - invulnerability value
+   */
+  void setInvulnerable(@NotNull Entity entity, boolean invulnerability);
 }

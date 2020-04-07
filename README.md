@@ -69,3 +69,7 @@ All the methods of the variants of `BukkitVersion` return cached instances.
 - `INmsEntity#rotateLivingEntity(@NotNull LivingEntity, float, float)`: \
   Rotate a living entity, this is sometimes needed with entities such as the Ender Dragon, 
   but most of the time the method above is enough.
+- `INmsEntity#setInvisible(@NotNull Entity, boolean)`: \
+  Make an entity invisible. Bukkit doesn't let you make some of them so we have to use NMS.
+- `INmsEntity#setInvulnerable(@NotNull Entity, boolean)`: \
+  Make an entity invulnerable.
