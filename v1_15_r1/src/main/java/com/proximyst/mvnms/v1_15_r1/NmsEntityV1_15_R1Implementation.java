@@ -3,6 +3,7 @@ package com.proximyst.mvnms.v1_15_r1;
 import com.proximyst.mvnms.common.INmsEntity;
 import net.minecraft.server.v1_15_R1.EntityLiving;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
@@ -15,14 +16,8 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
     handle.pitch = pitch;
   }
 
-  /**
-   * This should only be needed on *some* living entities like the Ender Dragon
-   */
   @Override
-  public void rotateLivingEntity(@NotNull LivingEntity livingEntity, float yaw, float pitch) {
-    EntityLiving handle = (EntityLiving) ((CraftEntity) livingEntity).getHandle();
-    handle.yaw = yaw;
-
+  public void rotateClamped(@NotNull Entity entity, float yaw, float pitch) {
     while (yaw < -180f) {
       yaw += 360f;
     }
@@ -31,10 +26,16 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
       yaw -= 360.0F;
     }
 
-    handle.aK = yaw;
-    handle.aL = yaw;
+    rotate(entity, yaw, pitch);
+  }
 
-    handle.pitch = pitch;
+  @Override
+  public void rotateLivingEntity(@NotNull LivingEntity livingEntity, float yaw, float pitch) {
+    rotateClamped(livingEntity, yaw, pitch);
+    EntityLiving handle = ((CraftLivingEntity) livingEntity).getHandle();
+
+    handle.aK = handle.yaw;
+    handle.aL = handle.yaw;
   }
 
   @Override

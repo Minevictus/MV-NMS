@@ -6,32 +6,50 @@ import org.jetbrains.annotations.NotNull;
 
 public interface INmsEntity {
   /**
-   * Rotate the entity without teleporting it
-   * @param entity - entity
-   * @param yaw - new yaw
-   * @param pitch - new pitch
+   * Rotate an entity without teleporting it.
+   *
+   * @param entity The entity to rotate.
+   * @param yaw    Their new yaw.
+   * @param pitch  Their new pitch.
    */
   void rotate(@NotNull Entity entity, float yaw, float pitch);
 
   /**
-   * Rotate a living entity
-   * @param livingEntity - Living entity
-   * @param yaw - new yaw
-   * @param pitch - new pitch
+   * Rotate a living entity with clamping in place.
+   *
+   * @param livingEntity The {@link LivingEntity} to rotate.
+   * @param yaw          Their new yaw.
+   * @param pitch        Their new pitch.
+   * @see #rotateClamped
    */
   void rotateLivingEntity(@NotNull LivingEntity livingEntity, float yaw, float pitch);
 
   /**
-   * Bukkit does not let you make some entities invisible
-   * @param entity - entity to apply effect
-   * @param visibility - visibility value
+   * Rotate an {@link Entity} with clamps for yaw and pitch in place.
+   * <p>
+   * This should only be needed on <i>some</i> living entities like the {@link org.bukkit.entity.EnderDragon Ender
+   * Dragon}.
+   *
+   * @param entity The entity to rotate.
+   * @param yaw    Their new yaw.
+   * @param pitch  Their new pitch.
+   * @see #rotate
+   */
+  void rotateClamped(@NotNull Entity entity, float yaw, float pitch);
+
+  /**
+   * Set the visibility of an entity.
+   *
+   * @param entity     The entity to change the visibility of.
+   * @param visibility Their new visibility.
    */
   void setInvisible(@NotNull Entity entity, boolean visibility);
 
   /**
-   * Bukkit does not let you make some entities invulnerable
-   * @param entity - entity to apply effect
-   * @param invulnerability - invulnerability value
+   * Set the invulnerability of an entity.
+   *
+   * @param entity          The entity to change the invulnerability of.
+   * @param invulnerability Their new state of invulnerability.
    */
   void setInvulnerable(@NotNull Entity entity, boolean invulnerability);
 }
