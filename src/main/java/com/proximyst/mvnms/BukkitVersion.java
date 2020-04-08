@@ -8,6 +8,7 @@ import com.proximyst.mvnms.v1_15_r1.NmsItemsV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsVillagerV1_15_R1Implementation;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Supplier;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,15 +16,13 @@ public enum BukkitVersion {
   /**
    * Version 1.15.0 to 1.15.2 (per 2019-03-07).
    */
-  V1_15_R1("v1_15_R1") {
-    @Override
-    void setup() {
-      minecraftVersion = MinecraftVersion.V1_15;
-      iNmsVillager = new NmsVillagerV1_15_R1Implementation();
-      iNmsItems = new NmsItemsV1_15_R1Implementation();
-      iNmsEntity = new NmsEntityV1_15_R1Implementation();
-    }
-  },
+  V1_15_R1(
+      "v1_15_R1",
+      MinecraftVersion.V1_15,
+      NmsVillagerV1_15_R1Implementation::new,
+      NmsItemsV1_15_R1Implementation::new,
+      NmsEntityV1_15_R1Implementation::new
+  ),
   ;
 
   /**
@@ -33,14 +32,26 @@ public enum BukkitVersion {
       .getClass().getPackage().getName().split("\\.")[3];
 
   private final String packageName;
+  private final MinecraftVersion minecraftVersion;
 
-  protected MinecraftVersion minecraftVersion = null;
-  protected INmsVillager iNmsVillager = null;
-  protected INmsItems iNmsItems = null;
-  protected INmsEntity iNmsEntity = null;
+  private final LazyNonNullValue<INmsVillager> iNmsVillager;
+  private final LazyNonNullValue<INmsItems> iNmsItems;
+  private final LazyNonNullValue<INmsEntity> iNmsEntity;
 
-  BukkitVersion(final String packageName) {
+  BukkitVersion(
+      @NotNull final String packageName,
+      @NotNull final MinecraftVersion minecraftVersion,
+
+      @NotNull final Supplier<INmsVillager> iNmsVillagerSupplier,
+      @NotNull final Supplier<INmsItems> iNmsItemsSupplier,
+      @NotNull final Supplier<INmsEntity> iNmsEntitySupplier
+  ) {
     this.packageName = packageName;
+    this.minecraftVersion = minecraftVersion;
+
+    this.iNmsVillager = new LazyNonNullValue<>(iNmsVillagerSupplier);
+    this.iNmsItems = new LazyNonNullValue<>(iNmsItemsSupplier);
+    this.iNmsEntity = new LazyNonNullValue<>(iNmsEntitySupplier);
   }
 
   /**
@@ -90,7 +101,11 @@ public enum BukkitVersion {
     return packageName;
   }
 
-  abstract void setup();
+  void setup() {
+    iNmsEntity.eager();
+    iNmsItems.eager();
+    iNmsVillager.eager();
+  }
 
   /**
    * The Minecraft version represented by this version of Bukkit.
@@ -102,17 +117,17 @@ public enum BukkitVersion {
 
   @NotNull
   public INmsVillager getNmsVillager() {
-    return iNmsVillager;
+    return iNmsVillager.getValue();
   }
 
   @NotNull
   public INmsItems getNmsItems() {
-    return iNmsItems;
+    return iNmsItems.getValue();
   }
 
   @NotNull
   public INmsEntity getNmsEntity() {
-    return iNmsEntity;
+    return iNmsEntity.getValue();
   }
 
   /**
