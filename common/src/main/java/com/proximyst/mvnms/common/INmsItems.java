@@ -3,6 +3,8 @@ package com.proximyst.mvnms.common;
 import com.proximyst.mvnms.common.exceptions.ItemStackUndeserializableException;
 import com.proximyst.mvnms.common.exceptions.ItemStackUnserializableException;
 import com.proximyst.mvnms.common.exceptions.ItemStackUnserializableNBTException;
+import org.bukkit.Location;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,4 +18,7 @@ public interface INmsItems {
   ItemStack deserializeItemStack(byte[] serialized) throws
       ItemStackUndeserializableException
       ;
+
+  @NotNull
+  Item spawnItem(@NotNull Location location, ItemStack itemStack);
 }

@@ -4,16 +4,22 @@ import com.proximyst.mvnms.common.INmsItems;
 import com.proximyst.mvnms.common.exceptions.ItemStackUndeserializableException;
 import com.proximyst.mvnms.common.exceptions.ItemStackUnserializableException;
 import com.proximyst.mvnms.common.exceptions.ItemStackUnserializableNBTException;
+import net.minecraft.server.v1_15_R1.EntityItem;
+import net.minecraft.server.v1_15_R1.NBTCompressedStreamTools;
+import net.minecraft.server.v1_15_R1.NBTTagCompound;
+import net.minecraft.server.v1_15_R1.WorldServer;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import net.minecraft.server.v1_15_R1.NBTCompressedStreamTools;
-import net.minecraft.server.v1_15_R1.NBTTagCompound;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 public class NmsItemsV1_15_R1Implementation implements INmsItems {
   @Override
@@ -58,5 +64,21 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
     return CraftItemStack.asBukkitCopy(
         net.minecraft.server.v1_15_R1.ItemStack.a(compound)
     );
+  }
+
+  @Override
+  public @NotNull Item spawnItem(@NotNull Location location, ItemStack itemStack) {
+    WorldServer worldServer = ((CraftWorld) location.getWorld()).getHandle();
+
+    net.minecraft.server.v1_15_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
+
+    EntityItem entityItem = new EntityItem(worldServer, location.getX(), location.getY(), location.getZ());
+    entityItem.setItemStack(nmsItemStack);
+
+    entityItem.setInvisible(true); // test
+    entityItem.setInvulnerable(true);
+
+    worldServer.addEntity(entityItem);
+    return (Item) entityItem.getBukkitEntity();
   }
 }
