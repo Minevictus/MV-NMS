@@ -2,6 +2,11 @@
 
 The NMS API for Minevictus.
 
+## Building
+
+MV-NMS can be built through running the `shadowJar` task, or by just fetching
+it on <https://jenkins.proximyst.com> with an authorised user.
+
 ## Depend
 
 Gradle (Groovy):
