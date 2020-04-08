@@ -1,5 +1,0 @@
-name: MV-NMS
-author: Proximyst
-api-version: "1.15"
-version: "@VERSION@"
-main: com.proximyst.mvnms.MvNms

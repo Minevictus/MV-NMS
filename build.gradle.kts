@@ -1,12 +1,12 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.apache.tools.ant.filters.ReplaceTokens
 import java.util.*
 
 plugins {
     java
+    `java-library`
     id("com.github.johnrengelman.shadow") version "5.2.0"
-    maven
     `maven-publish`
+    id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
 }
 
 run {
@@ -26,12 +26,13 @@ run {
 subprojects {
     apply {
         plugin("java")
+        plugin("java-library")
     }
 }
 
 allprojects {
     group = "com.proximyst"
-    version = "0.1.7"
+    version = "0.1.8"
 
     repositories {
         maven {
@@ -89,6 +90,16 @@ allprojects {
         compileOnly("com.destroystokyo.paper:paper-api:1.15-R0.1-SNAPSHOT")
         compileOnly("org.jetbrains:annotations:19.0.0")
     }
+
+    configure<JavaPluginConvention> {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = sourceCompatibility
+    }
+
+    java {
+        withJavadocJar()
+        withSourcesJar()
+    }
 }
 
 fun DependencyHandlerScope.untransitiveProjects(vararg projects: String) {
@@ -99,37 +110,33 @@ fun DependencyHandlerScope.untransitiveProjects(vararg projects: String) {
 }
 
 dependencies {
+    api(project(":common")) {
+        isTransitive = false
+    }
     untransitiveProjects(
-        "common",
         "v1_15_r1"
     )
-}
-
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = sourceCompatibility
 }
 
 tasks.withType<ShadowJar> {
     this.archiveClassifier.set(null as String?)
 }
 
-val sourcesJar = tasks.create<Jar>("sourcesJar") {
-    from(sourceSets.main.get().allJava)
-    archiveClassifier.set("sources")
-}
+bukkit {
+    // The name is set to a constant to have it never mutate based on root project.
+    name = "MV-NMS"
 
-val javadocJar = tasks.create<Jar>("javadocJar") {
-    from(tasks.javadoc)
-    archiveClassifier.set("javadoc")
+    main = "com.proximyst.mvnms.MvNms"
+    apiVersion = "1.15"
+    authors = listOf("Proximyst", "NahuLD")
 }
 
 publishing {
     publications {
         create<MavenPublication>("shadow") {
             project.shadow.component(this)
-            artifact(javadocJar)
-            artifact(sourcesJar)
+            artifact(project.tasks.getByName("javadocJar"))
+            artifact(project.tasks.getByName("sourcesJar"))
         }
     }
     repositories {
@@ -143,16 +150,5 @@ publishing {
                 password = proxiPassword
             }
         }
-    }
-}
-
-tasks.processResources.configure {
-    from("src/main/resources") {
-        include("plugin.yml")
-        filter<ReplaceTokens>(
-            "tokens" to mapOf(
-                "VERSION" to project.version.toString()
-            )
-        )
     }
 }
