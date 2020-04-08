@@ -1,19 +1,28 @@
 package com.proximyst.mvnms;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum MinecraftVersion {
   /**
    * The 1.15 version.
    */
-  V1_15,
+  V1_15("1.15.x"),
   ;
+
+  @NotNull
+  private final String humanReadableName;
+
+  MinecraftVersion(@NotNull String humanReadableName) {
+    this.humanReadableName = humanReadableName;
+  }
 
   @Override
   public String toString() {
-    switch (this) {
-      case V1_15:
-        return "1.15";
-      default:
-        throw new IllegalStateException();
-    }
+    return getHumanReadableName();
+  }
+
+  @NotNull
+  public String getHumanReadableName() {
+    return humanReadableName;
   }
 }
