@@ -32,7 +32,7 @@ subprojects {
 
 allprojects {
     group = "com.proximyst"
-    version = "0.1.9"
+    version = "0.1.10"
 
     repositories {
         maven {

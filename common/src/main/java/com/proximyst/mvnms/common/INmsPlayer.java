@@ -12,4 +12,12 @@ public interface INmsPlayer {
      * @param player Player to be updated.
      */
     void updateClientPassengers(@NotNull Player player);
+
+    /**
+     * Destroy entity for {@link Player player} client.
+     *
+     * @param player Player to be updated.
+     * @param entity Entity to destroy.
+     */
+    void destroyEntity(@NotNull Player player, @NotNull Entity entity);
 }
