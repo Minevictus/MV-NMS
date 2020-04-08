@@ -22,7 +22,7 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
       yaw += 360f;
     }
 
-    while (yaw >= 180.0F) {
+    while (yaw >= 180f) {
       yaw -= 360.0F;
     }
 
