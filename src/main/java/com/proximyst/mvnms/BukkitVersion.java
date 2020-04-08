@@ -2,15 +2,18 @@ package com.proximyst.mvnms;
 
 import com.proximyst.mvnms.common.INmsEntity;
 import com.proximyst.mvnms.common.INmsItems;
+import com.proximyst.mvnms.common.INmsPlayer;
 import com.proximyst.mvnms.common.INmsVillager;
 import com.proximyst.mvnms.v1_15_r1.NmsEntityV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsItemsV1_15_R1Implementation;
+import com.proximyst.mvnms.v1_15_r1.NmsPlayerV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsVillagerV1_15_R1Implementation;
+import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
-import org.bukkit.Bukkit;
-import org.jetbrains.annotations.NotNull;
 
 public enum BukkitVersion {
   /**
@@ -21,7 +24,8 @@ public enum BukkitVersion {
       MinecraftVersion.V1_15,
       NmsVillagerV1_15_R1Implementation::new,
       NmsItemsV1_15_R1Implementation::new,
-      NmsEntityV1_15_R1Implementation::new
+      NmsEntityV1_15_R1Implementation::new,
+      NmsPlayerV1_15_R1Implementation::new
   ),
   ;
 
@@ -37,6 +41,7 @@ public enum BukkitVersion {
   private final LazyNonNullValue<INmsVillager> iNmsVillager;
   private final LazyNonNullValue<INmsItems> iNmsItems;
   private final LazyNonNullValue<INmsEntity> iNmsEntity;
+  private final LazyNonNullValue<INmsPlayer> iNmsPlayer;
 
   BukkitVersion(
       @NotNull final String packageName,
@@ -44,7 +49,8 @@ public enum BukkitVersion {
 
       @NotNull final Supplier<INmsVillager> iNmsVillagerSupplier,
       @NotNull final Supplier<INmsItems> iNmsItemsSupplier,
-      @NotNull final Supplier<INmsEntity> iNmsEntitySupplier
+      @NotNull final Supplier<INmsEntity> iNmsEntitySupplier,
+      @NotNull final Supplier<INmsPlayer> iNmsPlayerSupplier
   ) {
     this.packageName = packageName;
     this.minecraftVersion = minecraftVersion;
@@ -52,6 +58,7 @@ public enum BukkitVersion {
     this.iNmsVillager = new LazyNonNullValue<>(iNmsVillagerSupplier);
     this.iNmsItems = new LazyNonNullValue<>(iNmsItemsSupplier);
     this.iNmsEntity = new LazyNonNullValue<>(iNmsEntitySupplier);
+    this.iNmsPlayer = new LazyNonNullValue<>(iNmsPlayerSupplier);
   }
 
   /**
@@ -105,6 +112,7 @@ public enum BukkitVersion {
     iNmsEntity.eager();
     iNmsItems.eager();
     iNmsVillager.eager();
+    iNmsPlayer.eager();
   }
 
   /**
@@ -128,6 +136,11 @@ public enum BukkitVersion {
   @NotNull
   public INmsEntity getNmsEntity() {
     return iNmsEntity.getValue();
+  }
+
+  @NotNull
+  public INmsPlayer getNmsPlayer() {
+    return iNmsPlayer.getValue();
   }
 
   /**
