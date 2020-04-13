@@ -8,6 +8,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.HoverEvent.Action;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_15_R1.NBTCompressedStreamTools;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
 import org.bukkit.Material;
@@ -41,8 +45,9 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
     return stream.toByteArray();
   }
 
+  @NotNull
   @Override
-  public @NotNull ItemStack deserializeItemStack(byte[] serialized) throws
+  public ItemStack deserializeItemStack(byte[] serialized) throws
       ItemStackUndeserializableException {
     if (serialized.length == 0) {
       return new ItemStack(Material.AIR);
@@ -57,6 +62,23 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
 
     return CraftItemStack.asBukkitCopy(
         net.minecraft.server.v1_15_R1.ItemStack.a(compound)
+    );
+  }
+
+  @NotNull
+  @Override
+  public HoverEvent hoverItem(@NotNull ItemStack item) {
+    net.minecraft.server.v1_15_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+
+    NBTTagCompound compound = new NBTTagCompound();
+    nmsItem.save(compound);
+
+    String json = compound.toString();
+    return new HoverEvent(
+        HoverEvent.Action.SHOW_ITEM,
+        new BaseComponent[]{
+            new TextComponent(json)
+        }
     );
   }
 }
