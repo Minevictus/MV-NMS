@@ -60,23 +60,3 @@ If this is `false`, `#getCurrentVersion` will throw an exception upon call.
 exceptions.
 
 All the methods of the variants of `BukkitVersion` return cached instances.
-
-## The current interfaces:
-
-- `INmsVillager#clearVillagerReputations(@NotNull Villager)`: \
-  Clears all the gossips from a given villager.
-- `INmsItems#serializeItemStack(@NotNull ItemStack)`: \
-  Serialises an item to `byte[]`.
-- `INmsItems#deserializeItemStack(byte[])`: \
-  Deserialises an item from a `byte[]` to a `@NotNull ItemStack`.
-- `INmsEntity#rotate(@NotNull Entity, float, float)`: \
-  Rotate an entity without teleporting it.
-- `INmsEntity#rotateLivingEntity(@NotNull LivingEntity, float, float)`: \
-  Rotate a living entity, this is sometimes needed with entities such as the Ender Dragon, 
-  but most of the time the method above is enough.
-- `INmsEntity#setInvisible(@NotNull Entity, boolean)`: \
-  Make an entity invisible. Bukkit doesn't let you apply it to some of them so we have to use NMS.
-- `INmsEntity#setInvulnerable(@NotNull Entity, boolean)`: \
-  Make an entity invulnerable.
-- `INmsPlayer#updateClientPassengers(@NotNull Player)`: \
-  Update passengers for the provided player's client.
