@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class NmsEntityV1_15_R1Implementation implements INmsEntity {
   @Override
   public void rotate(@NotNull Entity entity, float yaw, float pitch) {
-    net.minecraft.server.v1_15_R1.Entity handle = ((CraftEntity) entity).getHandle();
+    net.minecraft.server.v1_15_R1.Entity handle = getEntityHandle(entity);
     handle.yaw = yaw;
     handle.pitch = pitch;
   }
@@ -40,13 +40,17 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
 
   @Override
   public void setInvisible(@NotNull Entity entity, boolean visibility) {
-    net.minecraft.server.v1_15_R1.Entity handle = ((CraftEntity) entity).getHandle();
+    net.minecraft.server.v1_15_R1.Entity handle = getEntityHandle(entity);
     handle.setInvisible(visibility);
   }
 
   @Override
   public void setInvulnerable(@NotNull Entity entity, boolean invulnerability) {
-    net.minecraft.server.v1_15_R1.Entity handle = ((CraftEntity) entity).getHandle();
+    net.minecraft.server.v1_15_R1.Entity handle = getEntityHandle(entity);
     handle.setInvulnerable(true);
+  }
+
+  private net.minecraft.server.v1_15_R1.Entity getEntityHandle(Entity entity) {
+    return ((CraftEntity) entity).getHandle();
   }
 }
