@@ -28,7 +28,7 @@ public class NmsVillagerReflectImplementation implements INmsVillager {
       villagerGetHandle = publicLookup.findVirtual(
           craftVillagerClass,
           "getHandle",
-          MethodType.genericMethodType(0)
+          MethodType.methodType(craftVillagerClass)
       );
 
       {
@@ -42,7 +42,7 @@ public class NmsVillagerReflectImplementation implements INmsVillager {
             handle = publicLookup.findVirtual(
                 entityVillagerClass,
                 method.getName(),
-                MethodType.genericMethodType(0)
+                MethodType.methodType(reputationClass)
             );
             break;
           }
@@ -51,7 +51,7 @@ public class NmsVillagerReflectImplementation implements INmsVillager {
           handle = publicLookup.findVirtual(
               entityVillagerClass,
               "eN",
-              MethodType.genericMethodType(0)
+              MethodType.methodType(reputationClass)
           );
         }
         getReputation = handle;
