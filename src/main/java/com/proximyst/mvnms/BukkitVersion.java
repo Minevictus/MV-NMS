@@ -4,6 +4,10 @@ import com.proximyst.mvnms.common.INmsEntity;
 import com.proximyst.mvnms.common.INmsItems;
 import com.proximyst.mvnms.common.INmsPlayer;
 import com.proximyst.mvnms.common.INmsVillager;
+import com.proximyst.mvnms.reflect.NmsEntityReflectImplementation;
+import com.proximyst.mvnms.reflect.NmsItemsReflectImplementation;
+import com.proximyst.mvnms.reflect.NmsPlayerReflectImplementation;
+import com.proximyst.mvnms.reflect.NmsVillagerReflectImplementation;
 import com.proximyst.mvnms.v1_15_r1.NmsEntityV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsItemsV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsPlayerV1_15_R1Implementation;
@@ -25,6 +29,17 @@ public enum BukkitVersion {
       NmsItemsV1_15_R1Implementation::new,
       NmsEntityV1_15_R1Implementation::new,
       NmsPlayerV1_15_R1Implementation::new
+  ),
+  /**
+   * Any version not already mapped. This is merely used as a fallback.
+   */
+  REFLECT(
+      "reflect",
+      MinecraftVersion.UNKNOWN,
+      NmsVillagerReflectImplementation::new,
+      NmsItemsReflectImplementation::new,
+      NmsEntityReflectImplementation::new,
+      NmsPlayerReflectImplementation::new
   ),
   ;
 
@@ -160,7 +175,16 @@ public enum BukkitVersion {
     Internal() {
       current = Arrays.stream(BukkitVersion.values())
           .filter(it -> it.packageName.equals(rawBukkitVersion))
-          .findFirst();
+          .findFirst()
+          .or(() -> {
+            try {
+              REFLECT.setup();
+              return Optional.of(REFLECT);
+            } catch (Throwable ex) {
+              // Reflect does not work!
+              return Optional.empty();
+            }
+          });
     }
   }
 }
