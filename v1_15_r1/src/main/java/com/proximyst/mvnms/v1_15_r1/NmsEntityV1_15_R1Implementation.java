@@ -46,7 +46,7 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
   @Override
   public void setInvulnerable(@NotNull Entity entity, boolean invulnerability) {
     var handle = getEntityHandle(entity);
-    handle.setInvulnerable(true);
+    handle.setInvulnerable(invulnerability);
   }
 
   private net.minecraft.server.v1_15_R1.Entity getEntityHandle(Entity entity) {
