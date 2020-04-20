@@ -10,6 +10,8 @@ public enum MinecraftVersion {
 
   /**
    * An unknown Minecraft version.
+   *
+   * @since 0.2.0
    */
   UNKNOWN("Unknown"),
   ;
