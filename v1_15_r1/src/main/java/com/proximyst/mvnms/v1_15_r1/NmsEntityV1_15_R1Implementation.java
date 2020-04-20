@@ -16,19 +16,6 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
   }
 
   @Override
-  public void rotateClamped(@NotNull Entity entity, float yaw, float pitch) {
-    while (yaw < -180f) {
-      yaw += 360f;
-    }
-
-    while (yaw >= 180f) {
-      yaw -= 360.0F;
-    }
-
-    rotate(entity, yaw, pitch);
-  }
-
-  @Override
   public void rotateLivingEntity(@NotNull LivingEntity livingEntity, float yaw, float pitch) {
     rotateClamped(livingEntity, yaw, pitch);
     var handle = ((CraftLivingEntity) livingEntity).getHandle();

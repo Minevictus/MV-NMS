@@ -35,7 +35,17 @@ public interface INmsEntity {
    * @param pitch Their new pitch.
    * @see #rotate
    */
-  void rotateClamped(@NotNull Entity entity, float yaw, float pitch);
+  default void rotateClamped(@NotNull Entity entity, float yaw, float pitch) {
+    while (yaw < -180f) {
+      yaw += 360f;
+    }
+
+    while (yaw >= 180f) {
+      yaw -= 360.0F;
+    }
+
+    rotate(entity, yaw, pitch);
+  }
 
   /**
    * Set the visibility of an entity.
