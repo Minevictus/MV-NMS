@@ -114,7 +114,8 @@ dependencies {
         isTransitive = false
     }
     untransitiveProjects(
-        "v1_15_r1"
+        "v1_15_r1",
+        "reflect"
     )
 }
 
