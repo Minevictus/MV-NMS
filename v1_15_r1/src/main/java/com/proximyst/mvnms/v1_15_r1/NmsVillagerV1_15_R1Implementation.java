@@ -1,19 +1,20 @@
 package com.proximyst.mvnms.v1_15_r1;
 
 import com.proximyst.mvnms.common.INmsVillager;
-import java.lang.reflect.Field;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.util.Map;
 import net.minecraft.server.v1_15_R1.Reputation;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftVillager;
 import org.bukkit.entity.Villager;
 
 public class NmsVillagerV1_15_R1Implementation implements INmsVillager {
-  private final Field reputationMap;
+  private final MethodHandle reputationMap;
 
   public NmsVillagerV1_15_R1Implementation() {
     try {
-      reputationMap = Reputation.class.getDeclaredField("a");
-      reputationMap.setAccessible(true);
+      var lookup = MethodHandles.privateLookupIn(Reputation.class, MethodHandles.lookup());
+      reputationMap = lookup.findGetter(Reputation.class, "a", Map.class);
     } catch (Exception ex) {
       throw new RuntimeException(ex);
     }
@@ -21,12 +22,12 @@ public class NmsVillagerV1_15_R1Implementation implements INmsVillager {
 
   @Override
   public void clearVillagerReputations(Villager villager) {
-    CraftVillager craftVillager = (CraftVillager) villager;
-    Reputation reputation = craftVillager.getHandle().eN();
+    var craftVillager = (CraftVillager) villager;
+    var reputation = craftVillager.getHandle().eN();
     try {
-      Map<?, ?> map = (Map<?, ?>) reputationMap.get(reputation);
+      var map = (Map<?, ?>) reputationMap.invokeExact(reputation);
       map.clear();
-    } catch (IllegalAccessException e) {
+    } catch (Throwable e) {
       throw new RuntimeException(e);
     }
   }

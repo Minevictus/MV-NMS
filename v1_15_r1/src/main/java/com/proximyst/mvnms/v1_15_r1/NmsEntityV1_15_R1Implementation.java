@@ -1,7 +1,6 @@
 package com.proximyst.mvnms.v1_15_r1;
 
 import com.proximyst.mvnms.common.INmsEntity;
-import net.minecraft.server.v1_15_R1.EntityLiving;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class NmsEntityV1_15_R1Implementation implements INmsEntity {
   @Override
   public void rotate(@NotNull Entity entity, float yaw, float pitch) {
-    net.minecraft.server.v1_15_R1.Entity handle = getEntityHandle(entity);
+    var handle = getEntityHandle(entity);
     handle.yaw = yaw;
     handle.pitch = pitch;
   }
@@ -32,7 +31,7 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
   @Override
   public void rotateLivingEntity(@NotNull LivingEntity livingEntity, float yaw, float pitch) {
     rotateClamped(livingEntity, yaw, pitch);
-    EntityLiving handle = ((CraftLivingEntity) livingEntity).getHandle();
+    var handle = ((CraftLivingEntity) livingEntity).getHandle();
 
     handle.aK = handle.yaw;
     handle.aL = handle.yaw;
@@ -40,13 +39,13 @@ public class NmsEntityV1_15_R1Implementation implements INmsEntity {
 
   @Override
   public void setInvisible(@NotNull Entity entity, boolean visibility) {
-    net.minecraft.server.v1_15_R1.Entity handle = getEntityHandle(entity);
+    var handle = getEntityHandle(entity);
     handle.setInvisible(visibility);
   }
 
   @Override
   public void setInvulnerable(@NotNull Entity entity, boolean invulnerability) {
-    net.minecraft.server.v1_15_R1.Entity handle = getEntityHandle(entity);
+    var handle = getEntityHandle(entity);
     handle.setInvulnerable(true);
   }
 

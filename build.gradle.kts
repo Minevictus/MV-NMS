@@ -32,7 +32,7 @@ subprojects {
 
 allprojects {
     group = "com.proximyst"
-    version = "0.1.12"
+    version = "0.2.0"
 
     repositories {
         maven {
@@ -87,12 +87,12 @@ allprojects {
     }
 
     dependencies {
-        compileOnly("com.destroystokyo.paper:paper-api:1.15-R0.1-SNAPSHOT")
+        compileOnly("com.destroystokyo.paper:paper-api:1.15.2-R0.1-SNAPSHOT")
         compileOnly("org.jetbrains:annotations:19.0.0")
     }
 
     configure<JavaPluginConvention> {
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = sourceCompatibility
     }
 

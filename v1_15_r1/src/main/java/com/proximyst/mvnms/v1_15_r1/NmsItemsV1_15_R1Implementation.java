@@ -14,7 +14,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_15_R1.EntityItem;
 import net.minecraft.server.v1_15_R1.NBTCompressedStreamTools;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
-import net.minecraft.server.v1_15_R1.WorldServer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
@@ -34,9 +33,9 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
       throw new ItemStackUnserializableException(item.getType());
     }
 
-    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    NBTTagCompound compound = new NBTTagCompound();
-    net.minecraft.server.v1_15_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    var stream = new ByteArrayOutputStream();
+    var compound = new NBTTagCompound();
+    var nmsItem = CraftItemStack.asNMSCopy(item);
 
     nmsItem.save(compound);
 
@@ -72,16 +71,17 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
   @NotNull
   @Override
   public HoverEvent hoverItem(@NotNull ItemStack item) {
-    net.minecraft.server.v1_15_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    var nmsItem = CraftItemStack.asNMSCopy(item);
 
-    NBTTagCompound compound = new NBTTagCompound();
+    var compound = new NBTTagCompound();
     nmsItem.save(compound);
 
-    String json = compound.toString();
     return new HoverEvent(
         HoverEvent.Action.SHOW_ITEM,
         new BaseComponent[]{
-            new TextComponent(json)
+            new TextComponent(
+                compound.toString()
+            )
         }
     );
   }
@@ -89,11 +89,11 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
   @NotNull
   @Override
   public Item spawnItem(@NotNull Location location, @NotNull ItemStack itemStack) {
-    WorldServer worldServer = ((CraftWorld) location.getWorld()).getHandle();
+    var worldServer = ((CraftWorld) location.getWorld()).getHandle();
 
-    net.minecraft.server.v1_15_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
+    var nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
 
-    EntityItem entityItem = new EntityItem(worldServer, location.getX(), location.getY(), location.getZ());
+    var entityItem = new EntityItem(worldServer, location.getX(), location.getY(), location.getZ());
     entityItem.setItemStack(nmsItemStack);
 
     entityItem.setInvisible(true);

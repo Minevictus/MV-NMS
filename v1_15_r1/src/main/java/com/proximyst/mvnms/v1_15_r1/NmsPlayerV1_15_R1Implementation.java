@@ -13,17 +13,17 @@ import org.jetbrains.annotations.NotNull;
 public class NmsPlayerV1_15_R1Implementation implements INmsPlayer {
     @Override
     public void updateClientPassengers(@NotNull Player player) {
-        EntityPlayer handle = getPlayerHandle(player);
+        var handle = getPlayerHandle(player);
 
-        PacketPlayOutMount playOutMount = new PacketPlayOutMount(handle);
+        var playOutMount = new PacketPlayOutMount(handle);
         handle.playerConnection.sendPacket(playOutMount);
     }
 
     @Override
     public void destroyEntity(@NotNull Player player, @NotNull Entity entity) {
-        net.minecraft.server.v1_15_R1.Entity entityHandle = ((CraftEntity) entity).getHandle();
+        var entityHandle = ((CraftEntity) entity).getHandle();
 
-        PacketPlayOutEntityDestroy entityDestroy = new PacketPlayOutEntityDestroy(entityHandle.getId());
+        var entityDestroy = new PacketPlayOutEntityDestroy(entityHandle.getId());
         getPlayerHandle(player).playerConnection.sendPacket(entityDestroy);
     }
 
