@@ -8,12 +8,11 @@ import com.proximyst.mvnms.v1_15_r1.NmsEntityV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsItemsV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsPlayerV1_15_R1Implementation;
 import com.proximyst.mvnms.v1_15_r1.NmsVillagerV1_15_R1Implementation;
-import org.bukkit.Bukkit;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
+import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 
 public enum BukkitVersion {
   /**
@@ -33,7 +32,10 @@ public enum BukkitVersion {
    * The raw version in the package name. This is the Bukkit version, not Minecraft's.
    */
   public static final String rawBukkitVersion = Bukkit.getServer()
-      .getClass().getPackage().getName().split("\\.")[3];
+      .getClass()
+      .getPackage()
+      .getName()
+      .split("\\.")[3];
 
   private final String packageName;
   private final MinecraftVersion minecraftVersion;
@@ -64,8 +66,8 @@ public enum BukkitVersion {
   /**
    * Safe function for deciding whether there are NMS interfaces available.
    * <p>
-   * Unlike {@link #getCurrentVersion()}, this does not throw an {@link IllegalStateException} upon an unknown version
-   * being found.
+   * Unlike {@link #getCurrentVersion()}, this does not throw an {@link IllegalStateException} upon
+   * an unknown version being found.
    *
    * @return Whether the current version is unknown.
    */
@@ -79,7 +81,8 @@ public enum BukkitVersion {
    * This parses on first run, which <b>should</b> be done by {@link MvNms#onEnable()}.
    *
    * @return The current version.
-   * @throws IllegalStateException If the version found is unsupported, an exception will be thrown.
+   * @throws IllegalStateException If the version found is unsupported, an exception will be
+   * thrown.
    */
   @NotNull
   public static BukkitVersion getCurrentVersion() {
@@ -151,7 +154,8 @@ public enum BukkitVersion {
   private enum Internal {
     INSTANCE;
 
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType") final Optional<BukkitVersion> current;
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    final Optional<BukkitVersion> current;
 
     Internal() {
       current = Arrays.stream(BukkitVersion.values())

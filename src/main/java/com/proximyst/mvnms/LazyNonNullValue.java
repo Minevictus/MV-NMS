@@ -8,8 +8,10 @@ import org.jetbrains.annotations.Nullable;
 class LazyNonNullValue<T> {
   private final Object synchronizedLock = new Object();
 
-  @NotNull private final Supplier<T> createValue;
-  @Nullable private T value = null;
+  @NotNull
+  private final Supplier<T> createValue;
+  @Nullable
+  private T value = null;
 
   LazyNonNullValue(@NotNull Supplier<T> createValue) {
     Objects.requireNonNull(createValue, "createValue cannot be null");

@@ -6,8 +6,10 @@ public class MvNms extends JavaPlugin {
   @Override
   public void onEnable() {
     if (BukkitVersion.isUnknownVersion()) {
-      getLogger().severe("Found version " + BukkitVersion.rawBukkitVersion + ", which is not supported.");
-      getLogger().severe("The plugin will not function and any dependents might not work correctly.");
+      getLogger()
+          .severe("Found version " + BukkitVersion.rawBukkitVersion + ", which is not supported.");
+      getLogger()
+          .severe("The plugin will not function and any dependents might not work correctly.");
       getLogger().warning("Disabling plugin...");
       setEnabled(false);
       return;

@@ -1,6 +1,5 @@
 package com.proximyst.mvnms.common.exceptions;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemStackUndeserializableException extends NmsException {

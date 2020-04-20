@@ -11,23 +11,23 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class NmsPlayerV1_15_R1Implementation implements INmsPlayer {
-    @Override
-    public void updateClientPassengers(@NotNull Player player) {
-        var handle = getPlayerHandle(player);
+  @Override
+  public void updateClientPassengers(@NotNull Player player) {
+    var handle = getPlayerHandle(player);
 
-        var playOutMount = new PacketPlayOutMount(handle);
-        handle.playerConnection.sendPacket(playOutMount);
-    }
+    var playOutMount = new PacketPlayOutMount(handle);
+    handle.playerConnection.sendPacket(playOutMount);
+  }
 
-    @Override
-    public void destroyEntity(@NotNull Player player, @NotNull Entity entity) {
-        var entityHandle = ((CraftEntity) entity).getHandle();
+  @Override
+  public void destroyEntity(@NotNull Player player, @NotNull Entity entity) {
+    var entityHandle = ((CraftEntity) entity).getHandle();
 
-        var entityDestroy = new PacketPlayOutEntityDestroy(entityHandle.getId());
-        getPlayerHandle(player).playerConnection.sendPacket(entityDestroy);
-    }
+    var entityDestroy = new PacketPlayOutEntityDestroy(entityHandle.getId());
+    getPlayerHandle(player).playerConnection.sendPacket(entityDestroy);
+  }
 
-    private EntityPlayer getPlayerHandle(Player player) {
-        return ((CraftPlayer) player).getHandle();
-    }
+  private EntityPlayer getPlayerHandle(Player player) {
+    return ((CraftPlayer) player).getHandle();
+  }
 }

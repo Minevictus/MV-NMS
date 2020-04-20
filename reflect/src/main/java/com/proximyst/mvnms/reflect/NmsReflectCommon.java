@@ -5,10 +5,6 @@ import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 public final class NmsReflectCommon {
-  private NmsReflectCommon() throws IllegalAccessException {
-    throw new IllegalAccessException(getClass().getSimpleName() + " cannot be instantiated");
-  }
-
   public static final String PACKAGE_NMS = "net.minecraft.server";
   public static final String PACKAGE_CRAFTBUKKIT = "org.bukkit.craftbukkit";
   public static final String VERSION_PACKAGE = Bukkit.getServer()
@@ -16,6 +12,9 @@ public final class NmsReflectCommon {
       .getPackage()
       .getName()
       .split("\\.")[3];
+  private NmsReflectCommon() throws IllegalAccessException {
+    throw new IllegalAccessException(getClass().getSimpleName() + " cannot be instantiated");
+  }
 
   @NotNull
   public static Optional<Class<?>> getClassOptional(@NotNull String path) {
@@ -35,7 +34,8 @@ public final class NmsReflectCommon {
   public static Class<?> getNmsThrows(@NotNull String path) {
     return getNms(path)
         .orElseThrow(
-            () -> new IllegalStateException("no class found: " + PACKAGE_NMS + "." + VERSION_PACKAGE + "." + path)
+            () -> new IllegalStateException(
+                "no class found: " + PACKAGE_NMS + "." + VERSION_PACKAGE + "." + path)
         );
   }
 
@@ -48,7 +48,8 @@ public final class NmsReflectCommon {
   public static Class<?> getCraftBukkitThrows(@NotNull String path) {
     return getCraftBukkit(path)
         .orElseThrow(
-            () -> new IllegalStateException("no class found: " + PACKAGE_CRAFTBUKKIT + "." + VERSION_PACKAGE + "." + path)
+            () -> new IllegalStateException(
+                "no class found: " + PACKAGE_CRAFTBUKKIT + "." + VERSION_PACKAGE + "." + path)
         );
   }
 }
