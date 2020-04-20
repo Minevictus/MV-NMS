@@ -7,6 +7,11 @@ public enum MinecraftVersion {
    * The 1.15 version.
    */
   V1_15("1.15.x"),
+
+  /**
+   * An unknown Minecraft version.
+   */
+  UNKNOWN("Unknown"),
   ;
 
   @NotNull
