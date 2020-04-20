@@ -9,6 +9,11 @@ public enum MinecraftVersion {
   V1_15("1.15.x"),
 
   /**
+   * The 1.16 version.
+   */
+  V1_16("1.16.x"),
+
+  /**
    * An unknown Minecraft version.
    *
    * @since 0.2.0
