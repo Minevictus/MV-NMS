@@ -30,8 +30,11 @@ public enum BukkitVersion {
       NmsEntityV1_15_R1Implementation::new,
       NmsPlayerV1_15_R1Implementation::new
   ),
+
   /**
    * Any version not already mapped. This is merely used as a fallback.
+   *
+   * @since 0.2.0
    */
   REFLECT(
       "reflect",
