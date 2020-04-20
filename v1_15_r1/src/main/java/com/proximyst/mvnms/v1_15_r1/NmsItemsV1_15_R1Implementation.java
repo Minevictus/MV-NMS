@@ -37,10 +37,8 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
     var compound = new NBTTagCompound();
     var nmsItem = CraftItemStack.asNMSCopy(item);
 
-    nmsItem.save(compound);
-
     try {
-      NBTCompressedStreamTools.a(compound, stream);
+      NBTCompressedStreamTools.a(nmsItem.save(compound), stream);
     } catch (IOException e) {
       throw new ItemStackUnserializableNBTException(e);
     }
@@ -74,13 +72,12 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
     var nmsItem = CraftItemStack.asNMSCopy(item);
 
     var compound = new NBTTagCompound();
-    nmsItem.save(compound);
 
     return new HoverEvent(
         HoverEvent.Action.SHOW_ITEM,
         new BaseComponent[]{
             new TextComponent(
-                compound.toString()
+                nmsItem.save(compound).toString()
             )
         }
     );
