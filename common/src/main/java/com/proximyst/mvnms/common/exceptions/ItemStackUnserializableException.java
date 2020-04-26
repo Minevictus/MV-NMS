@@ -3,6 +3,9 @@ package com.proximyst.mvnms.common.exceptions;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Thrown when an item cannot be serialized.
+ */
 public class ItemStackUnserializableException extends NmsException {
   public ItemStackUnserializableException(@Nullable Material material) {
     super(

@@ -4,6 +4,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Interface handling all that has to do with players and their properties.
+ */
 public interface INmsPlayer {
   /**
    * Update passengers to {@link Player player's} client. The client sometimes doesn't update {@link

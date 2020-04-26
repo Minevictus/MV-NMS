@@ -100,7 +100,7 @@ public enum BukkitVersion {
    *
    * @return The current version.
    * @throws IllegalStateException If the version found is unsupported, an exception will be
-   * thrown.
+   *                               thrown.
    */
   @NotNull
   public static BukkitVersion getCurrentVersion() {

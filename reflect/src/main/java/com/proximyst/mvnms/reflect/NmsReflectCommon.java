@@ -12,6 +12,7 @@ public final class NmsReflectCommon {
       .getPackage()
       .getName()
       .split("\\.")[3];
+
   private NmsReflectCommon() throws IllegalAccessException {
     throw new IllegalAccessException(getClass().getSimpleName() + " cannot be instantiated");
   }
