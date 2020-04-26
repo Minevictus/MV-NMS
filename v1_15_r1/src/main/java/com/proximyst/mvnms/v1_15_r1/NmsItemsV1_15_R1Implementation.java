@@ -11,14 +11,10 @@ import java.io.InputStream;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_15_R1.EntityItem;
 import net.minecraft.server.v1_15_R1.NBTCompressedStreamTools;
 import net.minecraft.server.v1_15_R1.NBTTagCompound;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -81,22 +77,5 @@ public class NmsItemsV1_15_R1Implementation implements INmsItems {
             )
         }
     );
-  }
-
-  @NotNull
-  @Override
-  public Item spawnItem(@NotNull Location location, @NotNull ItemStack itemStack) {
-    var worldServer = ((CraftWorld) location.getWorld()).getHandle();
-
-    var nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
-
-    var entityItem = new EntityItem(worldServer, location.getX(), location.getY(), location.getZ());
-    entityItem.setItemStack(nmsItemStack);
-
-    entityItem.setInvisible(true);
-    entityItem.setInvulnerable(true);
-
-    worldServer.addEntity(entityItem);
-    return (Item) entityItem.getBukkitEntity();
   }
 }

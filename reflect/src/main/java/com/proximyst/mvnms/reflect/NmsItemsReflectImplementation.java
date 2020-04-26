@@ -15,21 +15,11 @@ import java.lang.invoke.MethodType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class NmsItemsReflectImplementation implements INmsItems {
-  private final MethodHandle getWorldHandle;
-  private final MethodHandle worldAddEntityMethod;
-  private final MethodHandle newEntityItem;
-  private final MethodHandle setInvisibleMethod;
-  private final MethodHandle setInvulnerableMethod;
-  private final MethodHandle setItemStackMethod;
-  private final MethodHandle getBukkitEntityMethod;
-
   private final MethodHandle asNmsCopyMethod;
   private final MethodHandle asBukkitCopyMethod;
   private final MethodHandle newCompound;
@@ -45,53 +35,7 @@ public class NmsItemsReflectImplementation implements INmsItems {
       var craftItemStackClass = NmsReflectCommon.getCraftBukkitThrows("inventory.CraftItemStack");
       var nmsNBTCompressedStreamToolsClass = NmsReflectCommon
           .getNmsThrows("NBTCompressedStreamTools");
-      var craftWorldClass = NmsReflectCommon.getCraftBukkitThrows("CraftWorld");
-      var craftEntityClass = NmsReflectCommon.getCraftBukkitThrows("entity.CraftEntity");
-      var nmsWorldClass = NmsReflectCommon.getNmsThrows("WorldServer");
-      var nmsEntityClass = NmsReflectCommon.getNmsThrows("Entity");
-      var nmsEntityItemClass = NmsReflectCommon.getNmsThrows("EntityItem");
       var publicLookup = MethodHandles.publicLookup();
-
-      getWorldHandle = publicLookup.findVirtual(
-          craftWorldClass,
-          "getHandle",
-          MethodType.methodType(nmsWorldClass)
-      );
-      worldAddEntityMethod = publicLookup.findVirtual(
-          nmsWorldClass,
-          "addEntity",
-          MethodType.methodType(boolean.class, nmsEntityClass)
-      );
-      newEntityItem = publicLookup.findConstructor(
-          nmsEntityItemClass,
-          MethodType.methodType(
-              nmsEntityClass,
-              nmsWorldClass,
-              double.class,
-              double.class,
-              double.class
-          )
-      );
-      setInvisibleMethod = publicLookup.findVirtual(
-          nmsEntityClass,
-          "setInvisible",
-          MethodType.methodType(void.class, boolean.class)
-      );
-      setInvulnerableMethod = publicLookup.findVirtual(
-          nmsEntityClass,
-          "setInvulnerable",
-          MethodType.methodType(void.class, boolean.class)
-      );
-      setItemStackMethod = publicLookup.findVirtual(
-          nmsEntityItemClass,
-          "setItemStack",
-          MethodType.methodType(void.class, nmsItemStackClass)
-      );
-      getBukkitEntityMethod = publicLookup.findVirtual(
-          nmsEntityClass,
-          "getBukkitEntity",
-          MethodType.methodType(craftEntityClass)
-      );
 
       newCompound = publicLookup.findConstructor(
           nmsNbtCompoundClass,
@@ -207,26 +151,6 @@ public class NmsItemsReflectImplementation implements INmsItems {
               )
           }
       );
-    } catch (Throwable ex) {
-      throw new RuntimeException(ex);
-    }
-  }
-
-  @Override
-  @NotNull
-  public Item spawnItem(
-      @NotNull Location location,
-      @NotNull ItemStack itemStack
-  ) {
-    try {
-      var nmsWorld = getWorldHandle.invokeExact(location.getWorld());
-      var nmsItem = asNmsCopyMethod.invokeExact(itemStack);
-      var entityItem = newEntityItem.invokeExact(nmsWorld, location.getX(), location.getY(), location.getZ());
-      setItemStackMethod.invokeExact(entityItem, nmsItem);
-      setInvulnerableMethod.invokeExact(entityItem, true);
-      setInvisibleMethod.invokeExact(entityItem, true);
-      worldAddEntityMethod.invokeExact(nmsWorld, entityItem);
-      return (Item) getBukkitEntityMethod.invokeExact(entityItem);
     } catch (Throwable ex) {
       throw new RuntimeException(ex);
     }
