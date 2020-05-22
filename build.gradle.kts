@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import nl.javadude.gradle.plugins.license.LicensePlugin
 import java.util.*
 
 plugins {
@@ -7,6 +8,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "5.2.0"
     `maven-publish`
     id("net.minecrell.plugin-yml.bukkit") version "0.3.0"
+    id("com.github.hierynomus.license") version "0.15.0"
 }
 
 run {
@@ -27,6 +29,7 @@ subprojects {
     apply {
         plugin("java")
         plugin("java-library")
+        plugin<LicensePlugin>()
     }
 }
 
@@ -99,6 +102,13 @@ allprojects {
     java {
         withJavadocJar()
         withSourcesJar()
+    }
+
+    license {
+        header = rootProject.file("LICENCE-HEADER")
+        ext["year"] = Calendar.getInstance().get(Calendar.YEAR)
+        ext["name"] = "Mariell Hoversholm, Nahuel Dolores"
+        include("**/*.java")
     }
 }
 
